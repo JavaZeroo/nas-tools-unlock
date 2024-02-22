@@ -126,9 +126,10 @@ class OpenAiHelper:
             return None
         result = ""
         try:
-            _filename_prompt = "I will give you a movie/tvshow file name.You need to return a Json." \
-                               "\nPay attention to the correct identification of the film name." \
-                               "\n{\"title\":string,\"version\":string,\"part\":string,\"year\":string,\"resolution\":string,\"season\":number|null,\"episode\":number|null}"
+            _filename_prompt = "When I provide a file name of a movie or TV show, you need to return information in Json format. Please ensure correct identification of the following: movie/TV show name, version (if any), part of a series (if applicable), release year, resolution, season number (if it's a TV show), and episode number (if it's a TV show)." \
+                                "The format should be as follows: \n{\"title\": string, \"version\": string, \"part\": string, \"year\": string, \"resolution\": string, \"season\": number|null, \"episode\": number|null}" \
+                                "Note: The title is the main part of the file name, the version might appear after the title, the part usually refers to a specific part of a movie series, and the year, resolution, season, and episode numbers need to be accurately extracted based on the information in the file name."
+
             completion = self.__get_model(prompt=_filename_prompt, message=filename)
             result = completion.choices[0].message.content
             return json.loads(result)
